@@ -11,6 +11,7 @@ public class UpdateSaleCommand : IRequest<UpdateSaleResult>
     public string CustomerName { get; set; } = string.Empty;
     public int BranchId { get; set; }
     public string BranchName { get; set; } = string.Empty;
+    public List<UpdateSaleItemCommand> Items { get; set; } = [];
 
     public ValidationResultDetail Validate()
     {
@@ -22,4 +23,12 @@ public class UpdateSaleCommand : IRequest<UpdateSaleResult>
             Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
         };
     }
+}
+
+public class UpdateSaleItemCommand
+{
+    public int ProductId { get; set; }
+    public string ProductName { get; set; } = string.Empty;
+    public int Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
 }

@@ -19,7 +19,6 @@ public class SaleItem : BaseEntity
     protected SaleItem() { }
     public SaleItem(ProductInfo product, Quantity quantity, Money unitPrice)
     {
-        Id = Guid.NewGuid();
         Product = product ?? throw new SaleItemDomainException("Product info cannot be null");
         Quantity = quantity;
         UnitPrice = unitPrice;

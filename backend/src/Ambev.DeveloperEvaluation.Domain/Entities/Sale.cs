@@ -36,6 +36,11 @@ public class Sale : BaseEntity
         var item = new SaleItem(product, new Quantity(quantity), new Money(unitPrice));
         _items.Add(item);
     }
+    
+    public void ClearItems()
+    {
+        _items.Clear();
+    }
 
     public void Update(string saleNumber, CustomerInfo customer, BranchInfo branch)
     {

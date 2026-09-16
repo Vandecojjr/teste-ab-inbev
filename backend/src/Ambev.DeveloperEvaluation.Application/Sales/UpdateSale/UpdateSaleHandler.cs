@@ -34,6 +34,18 @@ public class UpdateSaleHandler : IRequestHandler<UpdateSaleCommand, UpdateSaleRe
             new CustomerInfo(request.CustomerId, request.CustomerName), 
             new BranchInfo(request.BranchId, request.BranchName));
         
+        if (request.Items.Any())
+        {
+            sale.ClearItems();
+            foreach (var item in request.Items)
+            {
+                sale.AddItem(
+                    new ProductInfo(item.ProductId, item.ProductName),
+                    item.Quantity,
+                    item.UnitPrice);
+            }
+        }
+        
         await _saleRepository.UpdateAsync(sale, cancellationToken);
         await _mediator.Publish(new SaleModifiedEvent(sale.Id, sale.SaleNumber), cancellationToken);
 
