@@ -29,7 +29,9 @@ public class CancelSaleItemHandlerTests
         var saleEntity = new Sale("SALE-123", new CustomerInfo(1, "Customer"), new BranchInfo(1, "Branch"));
         
         saleEntity.AddItem(new ProductInfo(1, "Product A"), 2, 50m); // total 100
-        var itemId = saleEntity.Items.First().Id;
+        var item = saleEntity.Items.First();
+        item.Id = Guid.NewGuid();
+        var itemId = item.Id;
 
         var command = new CancelSaleItemCommand(saleId, itemId);
         _saleRepository.GetByIdAsync(saleId, Arg.Any<CancellationToken>()).Returns(saleEntity);
