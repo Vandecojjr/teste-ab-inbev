@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  ambev.developerevaluation.webapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=ambev.developerevaluation.database;Database=developer_evaluation;User Id=developer;Password=ev@luAt10n;TrustServerCertificate=True
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ambev.developerevaluation.database
+
+  ambev.developerevaluation.database:
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
