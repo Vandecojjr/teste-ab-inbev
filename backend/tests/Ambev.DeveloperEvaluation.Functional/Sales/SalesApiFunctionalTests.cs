@@ -39,6 +39,17 @@ public class SalesApiFunctionalTests : IClassFixture<WebApplicationFactory<Progr
             });
         });
         _client = _factory.CreateClient();
+        
+        using var scope = _factory.Services.CreateScope();
+        var jwtGenerator = scope.ServiceProvider.GetRequiredService<Ambev.DeveloperEvaluation.Common.Security.IJwtTokenGenerator>();
+        var user = new Domain.Entities.User
+        {
+            Id = Guid.NewGuid(),
+            Username = "admin",
+            Role = Domain.Enums.UserRole.Admin
+        };
+        var token = jwtGenerator.GenerateToken(user);
+        _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
     }
 
     [Fact(DisplayName = "POST /api/sales - Should create sale and return 201 Created")]
